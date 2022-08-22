@@ -1,0 +1,21 @@
+{
+  "name": "macotsuu/apollo",
+  "type": "project",
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "Apollo\\": "src/Apollo"
+    }
+  },
+  "authors": [
+    {
+      "name": "Dominik Szamburski",
+      "email": "dominikszamburski99@gmail.com"
+    }
+  ],
+  "minimum-stability": "stable",
+  "require": {},
+  "scripts": {
+    "format": "tools/php-cs-fixer/vendor/bin/php-cs-fixer fix src"
+  }
+}

@@ -17,6 +17,6 @@
             $this->code = $previous->getCode();
             $this->sql = $sql;
             $this->bindings = $bindings;
-            $this->message = print_r($this->sql + $this->bindings, true);
+            $this->message = "\nQuery: " . $this->sql . "\nParams: " . print_r($this->bindings, true);
         }
     }

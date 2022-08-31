@@ -19,13 +19,14 @@
         'host' => 'localhost',
         'username' => 'root',
         'password' => 'root',
-        'database' => 'database'
+        'database' => 'apollo'
     ]);
 
-    $users = $connection->select('SELECT * FROM users');
+    $users = $connection->select('SELECT `id`, `name` FROM `users`');
     while($users->valid()) {
-        print_r("Key " . $users->key()) . PHP_EOL;
-        print_r("User " . $users->current()) . PHP_EOL;
+        $user = $users->current(); // Getting current record. All records are objects!
+
+        print_r("[{$user->id}] -> $user->name" . PHP_EOL);
 
         $result->next();
     }

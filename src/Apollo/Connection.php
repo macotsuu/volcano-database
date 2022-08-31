@@ -6,7 +6,7 @@
     use Closure;
     use PDOException;
     use Apollo\Adapters\MySqlAdapter;
-    use Apollo\Exceptions\Exceptions\QueryException;
+    use Apollo\Exceptions\QueryException;
 
     class Connection implements ConnectionInterface
     {
@@ -14,28 +14,42 @@
 
         public function __construct(array $config)
         {
-            if (empty($config['adapter'])) {
+            if (empty($config['driver'])) {
                 throw new \Exception("Please provider a Database Adapter.");
             }
 
-            $driver = match ($config['adapter']) {
+            $driver = match ($config['driver']) {
                 'mysql' => new MySqlAdapter()
             };
 
             $this->connection = $driver->connect($config);
         }
 
-        public function select(string $query, array $bindings): QueryResult
+        /**
+         * Fetching records from the database
+         * 
+         * @param string $query
+         * @param array $bindings 
+         * @return QueryResult
+         */
+        public function select(string $query, array $bindings = []): QueryResult
         {
             return $this->run($query, $bindings, function (string $query, array $bindings) {
                 $statement = $this->connection->prepare($query);
                 $statement->execute($bindings);
 
-                return new QueryResult($statement->fetchAll());
+                return new QueryResult($statement->fetchAll(PDO::FETCH_OBJ));
             });
         }
 
-        public function insert(string $query, array $bindings): int
+        /**
+         * Inserting a record into the database
+         * 
+         * @param string $query
+         * @param array $bindings
+         * @return int
+         */
+        public function insert(string $query, array $bindings = []): int
         {
             return $this->run($query, $bindings, function (string $query, array $bindings) {
                 $statement = $this->connection->prepare($query);
@@ -45,6 +59,48 @@
             });
         }
 
+        /**
+         * Updating records in the database
+         * 
+         * @param string $query
+         * @param array $bindings
+         * @return int
+         */
+        public function update(string $query, array $bindings = []): int
+        {
+            return $this->run($query, $bindings, function (string $query, array $bindings) {
+                $statement = $this->connection->prepare($query);
+                $statement->execute($bindings);
+
+                return $statement->rowCount();
+            });
+        }
+
+        /**
+         * Deleting records from the database
+         * 
+         * @param string $query
+         * @param array $bindings
+         * @return int
+         */
+        public function delete(string $query, array $bindings = []): int
+        {
+            return $this->run($query, $bindings, function (string $query, array $bindings) {
+                $statement = $this->connection->prepare($query);
+                $statement->execute($bindings);
+
+                return $statement->rowCount();
+            });
+        }
+
+        /**
+         * Execution of the query
+         * 
+         * @param string $query
+         * @param array @bindings
+         * @param Closure $callback
+         * @return mixed
+         */
         private function run(string $query, array $bindings, Closure $callback): mixed
         {
             try {
@@ -57,10 +113,11 @@
         }
 
         /**
-         * Undocumented function
+         * Running SQL query callback
          *
          * @param string $query
          * @param array $bindings
+         * @param Closure $callback
          * @throws QueryException
          * @return mixed
          */

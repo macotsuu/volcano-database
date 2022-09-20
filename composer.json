@@ -1,10 +1,11 @@
 {
-  "name": "macotsuu/apollo",
+  "name": "volcano/database",
+  "version": "0.1.0",
   "type": "project",
   "license": "MIT",
   "autoload": {
     "psr-4": {
-      "Apollo\\": "src/Apollo"
+      "Volcano\\Database\\": "src/Database"
     }
   },
   "authors": [
@@ -14,8 +15,7 @@
     }
   ],
   "minimum-stability": "stable",
-  "require": {},
-  "scripts": {
-    "format": "tools/php-cs-fixer/vendor/bin/php-cs-fixer fix src"
+  "require": {
+    "ext-pdo": "*"
   }
 }

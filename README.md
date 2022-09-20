@@ -1,5 +1,5 @@
 
-# Apollo
+# Volcano\Database
  An object-oriented way to interact with databases using PDO in PHP
 
 
@@ -14,7 +14,7 @@
 
 ```php
 <?php
-    $connection = new \Apollo\Connection([
+    $connection = new \Volcano\Database\Connection([
         'driver' => 'mysql',
         'host' => 'localhost',
         'username' => 'root',
@@ -28,7 +28,7 @@
 
         print_r("[{$user->id}] -> $user->name" . PHP_EOL);
 
-        $result->next();
+        $users->next();
     }
 ?>
 ```

@@ -14,7 +14,7 @@
 
 ```php
 <?php
-    $connection = new \Apollo\Connection([
+    $connection = new \Database\Connection([
         'driver' => 'mysql',
         'host' => 'localhost',
         'username' => 'root',

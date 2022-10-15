@@ -1,6 +1,5 @@
 {
   "name": "volcano/database",
-  "version": "0.2.1",
   "type": "project",
   "license": "MIT",
   "autoload": {

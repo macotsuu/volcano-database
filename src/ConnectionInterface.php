@@ -2,6 +2,8 @@
 
 namespace Volcano\Database;
 
+use Iterator;
+
 interface ConnectionInterface
 {
     /**
@@ -9,9 +11,9 @@ interface ConnectionInterface
      *
      * @param string $query
      * @param array $bindings
-     * @return QueryResult
+     * @return Iterator
      */
-    public function select(string $query, array $bindings): QueryResult;
+    public function select(string $query, array $bindings): Iterator;
 
     /**
      * Inserting a record into the database

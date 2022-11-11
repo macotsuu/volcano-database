@@ -1,10 +1,10 @@
 <?php
 
-namespace Volcano\Database\Adapters;
+namespace Volcano\Database\Connectors;
 
 use PDO;
 
-interface AdapterInterface
+interface ConnectorInterface
 {
     /**
      * Connect to the database

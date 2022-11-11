@@ -1,5 +1,5 @@
 
-# Volcano\Database
+# volcano\database
  An object-oriented way to interact with databases using PDO in PHP
 
 
@@ -9,12 +9,16 @@
 - Using an iterator to handle data
 - Simple
 
+## Requirements
+
+- PHP 8.0 +
+- PDO
 
 ## Usage/Examples
 
 ```php
 <?php
-    $connection = new \Volcano\Database\Connection([
+    $manager = new \Volcano\Database\DatabaseManager([
         'driver' => 'mysql',
         'host' => 'localhost',
         'username' => 'root',
@@ -22,15 +26,16 @@
         'database' => 'apollo'
     ]);
 
-    $users = $connection->select('SELECT `id`, `name` FROM `users`');
-    while($users->valid()) {
-        $user = $users->current(); // Getting current record. All records are objects!
+    $users = $manager->connection()->select('SELECT name, email FROM users');
+    while ($users->valid()) {
+        $user = $users->current();
 
-        print_r("[{$user->id}] -> $user->name" . PHP_EOL);
+        echo $user->name . PHP_EOL;
+        echo $user->email . PHP_EOL;
 
         $users->next();
     }
-?>
+    ?>
 ```
 
 

@@ -1,13 +1,14 @@
 <?php
 
-namespace Volcano\Database\Adapters;
+namespace Volcano\Database\Connectors;
 
 use PDO;
 use PDOException;
 
-abstract class Adapter
+class Connector
 {
     protected array $options = [
+        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ,
         PDO::ATTR_CASE => PDO::CASE_NATURAL,
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
         PDO::ATTR_ORACLE_NULLS => PDO::NULL_NATURAL,

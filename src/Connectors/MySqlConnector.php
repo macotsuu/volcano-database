@@ -1,10 +1,10 @@
 <?php
 
-namespace Volcano\Database\Adapters;
+namespace Volcano\Database\Connectors;
 
 use PDO;
 
-class MySqlAdapter extends Adapter implements AdapterInterface
+class MySqlConnector extends Connector implements ConnectorInterface
 {
     public function connect(array $config): PDO
     {

@@ -2,28 +2,18 @@
 
 namespace Volcano\Database;
 
-use Volcano\Database\Adapters\MySqlAdapter;
-use Volcano\Database\Exceptions\QueryException;
 use Closure;
-use Exception;
 use PDO;
 use PDOException;
+use Volcano\Database\Exceptions\QueryException;
 
 class Connection implements ConnectionInterface
 {
     private PDO $connection;
 
-    public function __construct(array $config)
+    public function __construct(PDO $pdo, array $config)
     {
-        if (empty($config['driver'])) {
-            throw new Exception("Please provider a Database Adapter.");
-        }
-
-        $driver = match ($config['driver']) {
-            'mysql' => new MySqlAdapter()
-        };
-
-        $this->connection = $driver->connect($config);
+        $this->connection = $pdo;
     }
 
     /**
@@ -33,13 +23,13 @@ class Connection implements ConnectionInterface
      * @param array $bindings
      * @return QueryResult
      */
-    public function select(string $query, array $bindings = []): QueryResult
+    public function select(string $query, array $bindings = []): \Iterator
     {
         return $this->run($query, $bindings, function (string $query, array $bindings) {
             $statement = $this->connection->prepare($query);
             $statement->execute($bindings);
 
-            return new QueryResult($statement->fetchAll(PDO::FETCH_OBJ));
+            return $statement->getIterator();
         });
     }
 
